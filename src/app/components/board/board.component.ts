@@ -1,7 +1,13 @@
-import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ImagesService } from 'src/app/services/images.service';
-import * as bootstrap from 'bootstrap';
 import { LocalstorageService } from 'src/app/services/localstorage.service';
 
 @Component({
@@ -11,6 +17,7 @@ import { LocalstorageService } from 'src/app/services/localstorage.service';
 })
 export class BoardComponent implements OnInit, OnChanges {
   @Input() imagesData: any;
+  @Output() modalOpen = new EventEmitter<void>();
   username = '';
   animalsImageData: any = [];
   selected: number[] = [];
@@ -73,7 +80,7 @@ export class BoardComponent implements OnInit, OnChanges {
         this.errors++;
       } else {
         this.success++;
-        if (this.success === 1) {
+        if (this.success === 20) {
           this.onGameOver();
         }
       }
@@ -81,8 +88,7 @@ export class BoardComponent implements OnInit, OnChanges {
   }
 
   onGameOver() {
-    const myModal = new bootstrap.Modal('#myModal');
-    myModal.show();
+    this.modalOpen.emit();
   }
 
   onNewGame() {

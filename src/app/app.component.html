@@ -9,11 +9,16 @@
 </div>
 
 <div class="content" role="main">
-  <div *ngIf="!username" class="form-container">
+  <div *ngIf="!username" class="custom-card form-container">
     <app-form></app-form>
   </div>
 
   <div *ngIf="username" class="content-container">
-    <app-board [imagesData]="imagesData"></app-board>
+    <app-board
+      [imagesData]="imagesData"
+      (modalOpen)="modalOpenEvent()"
+    ></app-board>
   </div>
 </div>
+
+<app-modal [modalOpen]="modalOpen" [username]="username"></app-modal>

@@ -8,6 +8,7 @@ import { LocalstorageService } from './services/localstorage.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  modalOpen: boolean = false;
   title = 'memory-game-modyo';
   username = '';
   imagesData = [];
@@ -35,9 +36,12 @@ export class AppComponent implements OnInit {
   getAnimalsImagesData() {
     this._imagesService.getAnimalsImagesData().subscribe((res: any) => {
       if (res) {
-        console.log(res);
         this.imagesData = res.entries.map((data: any) => data.fields.image);
       }
     });
+  }
+
+  modalOpenEvent() {
+    this.modalOpen = true;
   }
 }
