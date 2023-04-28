@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col">
+      <form class="text-center">
+        <div class="mb-3">
+          <label for="nameFormControl" class="form-label fs-5">Your name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nameFormControl"
+            [formControl]="name"
+            placeholder="Modyo"
+            autocomplete="off"
+          />
+        </div>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="setUsername()"
+          [disabled]="!name.valid"
+        >
+          Send
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

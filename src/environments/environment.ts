@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  SERVICE_URL:
+    'https://fed-team.modyo.cloud/api/content/spaces/animals/types/game/entries?per_page=20',
 };
 
 /*

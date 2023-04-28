@@ -1,0 +1,67 @@
+<div>
+  <div class="scoreboard">
+    <div>
+      <p><i class="bi bi-check-lg check"></i> Hits: {{ success }}</p>
+      <p><i class="bi bi-x-lg misses"></i> Misses: {{ errors }}</p>
+    </div>
+    <button class="btn btn-outline-primary my-auto" (click)="onNewGame()">
+      New Board
+    </button>
+  </div>
+  <div class="images-container">
+    <div
+      [id]="'card-' + animalData.id"
+      class="card-container"
+      *ngFor="let animalData of animalsImageData"
+      (click)="onSelectCard(animalData.id)"
+    >
+      <div class="card-visible">
+        <img
+          class="animal-image"
+          [src]="animalData.url"
+          [alt]="'animal-image'"
+        />
+      </div>
+      <div class="card-cover">
+        <i class="bi bi-question-lg"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="myModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Game over</h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p class="mb-3">
+          Congratulations {{ username | titlecase }}!! You're on fire.
+        </p>
+        <p class="mb-3">To continue close the dialog modal.</p>
+        <button
+          type="button"
+          class="btn btn-outline-primary float-end"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
