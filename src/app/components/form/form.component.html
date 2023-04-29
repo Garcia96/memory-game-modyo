@@ -11,6 +11,7 @@
             [formControl]="name"
             placeholder="Modyo"
             autocomplete="off"
+            (keydown.enter)="setUsername()"
           />
         </div>
         <button
