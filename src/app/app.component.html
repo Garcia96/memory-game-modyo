@@ -10,7 +10,7 @@
 
 <div class="content" role="main">
   <div *ngIf="!username" class="custom-card form-container">
-    <app-form></app-form>
+    <app-form (username)="onSetUsername($event)"></app-form>
   </div>
 
   <div *ngIf="username" class="content-container">

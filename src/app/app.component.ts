@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ImagesService } from './services/images.service';
-import { LocalstorageService } from './services/localstorage.service';
 
 @Component({
   selector: 'app-root',
@@ -10,27 +9,21 @@ import { LocalstorageService } from './services/localstorage.service';
 export class AppComponent implements OnInit {
   modalOpen: boolean = false;
   title = 'memory-game-modyo';
-  username = '';
+  username: string = '';
   imagesData = [];
 
-  constructor(
-    private _imagesService: ImagesService,
-    private _localStorageService: LocalstorageService
-  ) {}
+  constructor(private _imagesService: ImagesService) {}
 
   ngOnInit(): void {
-    this.username = this._localStorageService.getUser('MEMORYGAME');
-
-    this._localStorageService.subjectObservable.subscribe((res: any) => {
-      if (Object.keys(res).length !== 0) {
-        this.username = res.username;
-        this.getAnimalsImagesData();
-      }
-    });
-
+    this.username = localStorage.getItem('MEMORYGAME') ?? '';
     if (this.username) {
       this.getAnimalsImagesData();
     }
+  }
+
+  onSetUsername(event: string): void {
+    this.username = event;
+    this.getAnimalsImagesData();
   }
 
   getAnimalsImagesData() {

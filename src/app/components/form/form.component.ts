@@ -1,24 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { LocalstorageService } from 'src/app/services/localstorage.service';
 
 @Component({
   selector: 'app-form',
   templateUrl: './form.component.html',
 })
 export class FormComponent {
+  @Output() username = new EventEmitter<any>();
+
   name = new FormControl('', [Validators.required]);
 
-  constructor(private _localStorageService: LocalstorageService) {}
-
   setUsername() {
-    const data = {
-      username: this.name.value,
-    };
-    this._localStorageService.setLocalStorage(
-      'MEMORYGAME',
-      JSON.stringify(data)
-    );
-    this._localStorageService.change(data);
+    localStorage.setItem('MEMORYGAME', this.name.value ?? '');
+    this.username.emit(this.name.value);
   }
 }

@@ -7,8 +7,8 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Image } from 'src/app/models/image.model';
 import { ImagesService } from 'src/app/services/images.service';
-import { LocalstorageService } from 'src/app/services/localstorage.service';
 
 @Component({
   selector: 'app-board',
@@ -16,7 +16,7 @@ import { LocalstorageService } from 'src/app/services/localstorage.service';
   styleUrls: ['./board.component.scss'],
 })
 export class BoardComponent implements OnInit, OnChanges {
-  @Input() imagesData: any;
+  @Input() imagesData: Image[] = [];
   @Output() modalOpen = new EventEmitter<void>();
   username = '';
   animalsImageData: any = [];
@@ -27,12 +27,11 @@ export class BoardComponent implements OnInit, OnChanges {
 
   constructor(
     private _imagesService: ImagesService,
-    private _localStorageService: LocalstorageService,
     private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
-    this.username = this._localStorageService.getUser('MEMORYGAME');
+    this.username = localStorage.getItem('MEMORYGAME') ?? '';
   }
 
   ngOnChanges(): void {
@@ -41,10 +40,10 @@ export class BoardComponent implements OnInit, OnChanges {
     }
   }
 
-  async getAnimalImage(imagesData: any) {
+  async getAnimalImage(imagesData: Image[]): Promise<void> {
     (await this._imagesService.getAllAnimalImage(imagesData)).subscribe(
       (res: any) => {
-        res.forEach((element: Blob | MediaSource, id: number) => {
+        res.forEach((element: Blob | MediaSource) => {
           this.animalsImageData.push({
             url: this.sanitizer.bypassSecurityTrustUrl(
               window.URL.createObjectURL(element)
@@ -56,7 +55,7 @@ export class BoardComponent implements OnInit, OnChanges {
     );
   }
 
-  onSelectCard(id: number) {
+  onSelectCard(id: number): void {
     let card = document.getElementById('card-' + id);
 
     if (card!.style.transform != 'rotateY(180deg)') {
@@ -65,12 +64,12 @@ export class BoardComponent implements OnInit, OnChanges {
     }
 
     if (this.selected.length === 2) {
-      this.deselectCards(this.selected);
+      this.compareCards(this.selected);
       this.selected = [];
     }
   }
 
-  deselectCards(selected: number[]) {
+  compareCards(selected: number[]): void {
     setTimeout(() => {
       const card1 = document.getElementById('card-' + selected[0]);
       const card2 = document.getElementById('card-' + selected[1]);
@@ -87,11 +86,11 @@ export class BoardComponent implements OnInit, OnChanges {
     }, 1000);
   }
 
-  onGameOver() {
+  onGameOver(): void {
     this.modalOpen.emit();
   }
 
-  onNewGame() {
+  onNewGame(): void {
     this.animalsImageData.forEach((element: any) => {
       document.getElementById('card-' + element.id)!.style.transform =
         'rotateY(0deg)';
@@ -102,7 +101,7 @@ export class BoardComponent implements OnInit, OnChanges {
     this.errors = 0;
   }
 
-  completeImages() {
+  completeImages(): void {
     const duplicatedImages = this.animalsImageData.slice(0);
     this.animalsImageData = this.animalsImageData.concat(duplicatedImages);
 
